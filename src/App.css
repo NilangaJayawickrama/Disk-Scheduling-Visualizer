@@ -1,0 +1,56 @@
+body{
+
+background:#0f172a;
+color:white;
+font-family:Arial;
+
+}
+
+.app{
+
+text-align:center;
+padding:40px;
+
+}
+
+input,select{
+
+padding:10px;
+margin:10px;
+border-radius:6px;
+border:none;
+
+}
+
+button{
+
+padding:10px 20px;
+margin:10px;
+background:#22c55e;
+border:none;
+border-radius:6px;
+color:white;
+
+}
+
+.compare{
+
+margin:auto;
+width:50%;
+border-collapse:collapse;
+
+}
+
+.compare th{
+
+background:#0ea5e9;
+padding:10px;
+
+}
+
+.compare td{
+
+padding:10px;
+border-bottom:1px solid #334155;
+
+}
