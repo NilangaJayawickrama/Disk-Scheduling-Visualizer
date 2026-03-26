@@ -1,68 +1,56 @@
-import React,{useState,useEffect} from "react"
-import {Line} from "react-chartjs-2"
+import React, { useState, useEffect } from "react";
+import { Line } from "react-chartjs-2";
 import {
-Chart as ChartJS,
-CategoryScale,
-LinearScale,
-PointElement,
-LineElement
-} from "chart.js"
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+} from "chart.js";
 
-ChartJS.register(CategoryScale,LinearScale,PointElement,LineElement)
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
-function Visualizer({path}){
+function Visualizer({ path }) {
+  const [animatedPath, setAnimatedPath] = useState([]);
 
-const [animatedPath,setAnimatedPath]=useState([])
+  useEffect(() => {
+    if (!path.length) return;
 
-useEffect(()=>{
+    let i = 0;
+    setAnimatedPath([path[0]]);
 
-if(!path.length) return
+    const interval = setInterval(() => {
+      i++;
+      setAnimatedPath((prev) => [...prev, path[i]]);
 
-let i=0
-setAnimatedPath([path[0]])
+      if (i === path.length - 1) clearInterval(interval);
+    }, 600);
 
-const interval=setInterval(()=>{
+    return () => clearInterval(interval);
+  }, [path]);
 
-i++
-setAnimatedPath(prev=>[...prev,path[i]])
+  const data = {
+    labels: animatedPath.map((_, i) => `Step ${i}`),
 
-if(i===path.length-1) clearInterval(interval)
+    datasets: [
+      {
+        label: "Disk Head Movement",
+        data: animatedPath,
+        borderColor: "#00bcd4",
+        backgroundColor: "rgba(0,188,212,0.2)",
+        borderWidth: 3,
+        pointBackgroundColor: "#ff5722",
+        pointRadius: 6,
+        tension: 0.4,
+      },
+    ],
+  };
 
-},600)
-
-return()=>clearInterval(interval)
-
-},[path])
-
-const data={
-
-labels:animatedPath.map((_,i)=>`Step ${i}`),
-
-datasets:[
-{
-label:"Disk Head Movement",
-data:animatedPath,
-borderColor:"#00bcd4",
-backgroundColor:"rgba(0,188,212,0.2)",
-borderWidth:3,
-pointBackgroundColor:"#ff5722",
-pointRadius:6,
-tension:0.4
-}
-]
-
-}
-
-return(
-
-<div style={{width:"800px",margin:"auto"}}>
-
-<Line data={data}/>
-
-</div>
-
-)
-
+  return (
+    <div style={{ width: "800px", margin: "auto" }}>
+      <Line data={data} />
+    </div>
+  );
 }
 
-export default Visualizer
+export default Visualizer;
