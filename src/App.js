@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Controls from "./components/Controls";
 import Visualizer from "./components/Visualizer";
@@ -16,6 +16,9 @@ import {
 import "./App.css";
 
 function App() {
+  const [ws, setWs] = useState(null);
+  const [connected, setConnected] = useState(false);
+
   const [head, setHead] = useState(50);
   const [requests, setRequests] = useState("");
   const [algorithm, setAlgorithm] = useState("FCFS");
@@ -24,24 +27,83 @@ function App() {
   const [seek, setSeek] = useState(0);
   const [comparison, setComparison] = useState({});
 
+  useEffect(() => {
+  const socket = new WebSocket("ws://localhost:8080");
+
+  socket.onopen = () => {
+    console.log("Connected to server");
+    setConnected(true);
+  };
+
+  socket.onmessage = (event) => {
+    console.log("From server:", event.data);
+
+    const data = JSON.parse(event.data);
+    setPath(data.sequence);
+    setSeek(data.total);
+  };
+
+  socket.onerror = (err) => {
+    console.error("WebSocket error:", err);
+  };
+
+  socket.onclose = () => {
+    console.log("Disconnected");
+    setConnected(false);
+  };
+
+  setWs(socket);
+
+  return () => socket.close();
+}, []);
+
   const parseRequests = () =>
     requests.split(",").map((x) => parseInt(x.trim()));
 
+  // const runSimulation = () => {
+  //   let req = parseRequests();
+  //   let result;
+
+  //   if (algorithm === "FCFS") result = FCFS(head, req);
+  //   if (algorithm === "SSTF") result = SSTF(head, req);
+  //   if (algorithm === "SCAN") result = SCAN(head, req);
+  //   if (algorithm === "C-SCAN") result = CSCAN(head, req);
+  //   if (algorithm === "LOOK") result = LOOK(head, req);
+  //   if (algorithm === "C-LOOK") result = CLOOK(head, req);
+
+  //   console.log(result);
+  //   setPath(result.sequence);
+  //   setSeek(result.seek);
+  // };
+
   const runSimulation = () => {
-    let req = parseRequests();
-    let result;
+      let req = parseRequests();
 
-    if (algorithm === "FCFS") result = FCFS(head, req);
-    if (algorithm === "SSTF") result = SSTF(head, req);
-    if (algorithm === "SCAN") result = SCAN(head, req);
-    if (algorithm === "C-SCAN") result = CSCAN(head, req);
-    if (algorithm === "LOOK") result = LOOK(head, req);
-    if (algorithm === "C-LOOK") result = CLOOK(head, req);
+      if (!ws || ws.readyState !== 1) {
+        alert("WebSocket not connected");
+        return;
+      }
 
-    console.log(result);
-    setPath(result.sequence);
-    setSeek(result.seek);
-  };
+      // 🔥 map algorithm name → number (important!)
+      const algoMap = {
+        FCFS: 0,
+        SSTF: 1,
+        SCAN: 2,
+        "C-SCAN": 3,
+        LOOK: 4,
+        "C-LOOK": 5,
+      };
+
+      const data = {
+        head: head,
+        requests: req,
+        algo: algoMap[algorithm],
+      };
+
+      console.log("📤 Sending to server:", data);
+
+      ws.send(JSON.stringify(data));
+    };
 
   const runComparison = () => {
     let req = parseRequests();
@@ -70,6 +132,7 @@ function App() {
         algorithm={algorithm}
         setAlgorithm={setAlgorithm}
         run={runSimulation}
+        serverConnected={connected}
         compare={runComparison}
       />
 

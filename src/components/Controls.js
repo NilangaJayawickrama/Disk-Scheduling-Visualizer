@@ -8,6 +8,7 @@ function Controls({
   algorithm,
   setAlgorithm,
   run,
+  serverConnected,
   compare,
 }) {
   return (
@@ -45,7 +46,11 @@ function Controls({
 
       <br />
 
-      <button onClick={run}>Run Simulation</button>
+      {/* <button onClick={run}>Run Simulation</button> */}
+
+      <button onClick={run} disabled={!serverConnected}>
+        Run Simulation
+      </button>
 
       <button onClick={compare}>Compare Algorithms</button>
     </div>
