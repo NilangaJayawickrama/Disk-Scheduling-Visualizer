@@ -10,7 +10,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
-function Visualizer({ path }) {
+function Visualizer({ path, currentStep }) {
   const [animatedPath, setAnimatedPath] = useState([]);
 
   useEffect(() => {
@@ -39,16 +39,43 @@ function Visualizer({ path }) {
         borderColor: "#00bcd4",
         backgroundColor: "rgba(0,188,212,0.2)",
         borderWidth: 3,
-        pointBackgroundColor: "#ff5722",
-        pointRadius: 6,
-        tension: 0.4,
+        tension: 0, // 🔥 straight lines (important)
+        // pointRadius: 5,
+        // pointBackgroundColor: animatedPath.map((_, i) =>
+        //   i === animatedPath.length - 1 ? "#ff5722" : "#ffffff",
+        // ),
+        pointBackgroundColor: animatedPath.map((_, i) =>
+          i === currentStep ? "#ff5722" : "#ffffff",
+        ),
+        pointRadius: animatedPath.map((_, i) => (i === currentStep ? 8 : 4)),
       },
     ],
   };
 
+  const options = {
+    animation: {
+      duration: 300,
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: "white",
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: "white" },
+      },
+      y: {
+        ticks: { color: "white" },
+      },
+    },
+  };
+
   return (
     <div style={{ width: "800px", margin: "auto" }}>
-      <Line data={data} />
+      <Line data={data} options={options} />
     </div>
   );
 }

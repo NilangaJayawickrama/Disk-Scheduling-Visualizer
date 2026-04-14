@@ -1,58 +1,43 @@
-import React from "react";
-
 function Controls({
   head,
   setHead,
   requests,
   setRequests,
-  algorithm,
-  setAlgorithm,
-  run,
-  serverConnected,
-  compare,
+  diskSize,
+  setDiskSize,
 }) {
   return (
-    <div>
-      <label>Head Position</label>
-      <br />
+    <div className="controls">
+      <div className="field">
+        <label>Head Position</label>
+        <input
+          type="number"
+          value={head}
+          onChange={(e) => setHead(Number(e.target.value))}
+        />
+      </div>
 
-      <input
-        type="number"
-        value={head}
-        onChange={(e) => setHead(Number(e.target.value))}
-      />
+      <div className="field">
+        <label>Disk Size</label>
+        <select
+          value={diskSize}
+          onChange={(e) => setDiskSize(Number(e.target.value))}
+        >
+          <option value={200}>0 – 199</option>
+          <option value={500}>0 – 499</option>
+          <option value={1000}>0 – 999</option>
+        </select>
+      </div>
 
-      <br />
-
-      <label>Disk Requests</label>
-      <br />
-
-      <input
-        value={requests}
-        onChange={(e) => setRequests(e.target.value)}
-        placeholder="98,183,37,122"
-      />
-
-      <br />
-
-      <select value={algorithm} onChange={(e) => setAlgorithm(e.target.value)}>
-        <option>FCFS</option>
-        <option>SSTF</option>
-        <option>SCAN</option>
-        <option>C-SCAN</option>
-        <option>LOOK</option>
-        <option>C-LOOK</option>
-      </select>
-
-      <br />
-
-      {/* <button onClick={run}>Run Simulation</button> */}
-
-      <button onClick={run} disabled={!serverConnected}>
-        Run Simulation
-      </button>
-
-      <button onClick={compare}>Compare Algorithms</button>
+      <div className="field">
+        <label>Disk Requests</label>
+        <input
+          className="padding: 5px"
+          value={requests}
+          onChange={(e) => setRequests(e.target.value)}
+          placeholder="98,183,37,122"
+        />
+      </div>
     </div>
   );
 }

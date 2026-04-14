@@ -1,56 +1,133 @@
-body{
-
-background:#0f172a;
-color:white;
-font-family:Arial;
-
+.app {
+  background: #0f172a;
+  color: white;
+  padding: 20px;
 }
 
-.app{
-
-text-align:center;
-padding:40px;
-
+.algo-controls {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 12px;              /* 🔥 spacing between items */
 }
 
-input,select{
-
-padding:10px;
-margin:10px;
-border-radius:6px;
-border:none;
-
+/* TOP INPUTS */
+.controls {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
 }
 
-button{
-
-padding:10px 20px;
-margin:10px;
-background:#22c55e;
-border:none;
-border-radius:6px;
-color:white;
-
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* 🔥 space between label and input */
 }
 
-.compare{
-
-margin:auto;
-width:50%;
-border-collapse:collapse;
-
+/* TABS */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
-.compare th{
-
-background:#0ea5e9;
-padding:10px;
-
+.tabs button {
+  padding: 10px 20px;
+  border: none;
+  background: #1e293b;
+  color: white;
+  cursor: pointer;
 }
 
-.compare td{
+.tabs .active {
+  background: #00bcd4;
+}
 
-padding:10px;
-border-bottom:1px solid #334155;
+/* SIMULATION LAYOUT */
+.simulation-panel {
+  display: flex;
+  gap: 20px;
+}
 
+.left-panel {
+  width: 35%;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.right-panel {
+  width: 65%;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* LOGS */
+.logs {
+  margin-top: 20px;
+  background: #0f172a;
+  padding: 10px;
+  height: 150px;
+  overflow-y: auto;
+}
+
+/* COMPARE */
+.compare-panel {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.compare {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.compare-layout {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: stretch; /* KEY FIX */
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+  background: #0f172a;
+  color: white;
+  border: 1px solid #334155;
+  table-layout: fixed; /* IMPORTANT for alignment */
+}
+
+.compare th,
+.compare td {
+  border: 1px solid #334155;
+  padding: 10px 15px;
+  text-align: center;
+}
+
+.compare th {
+  background: #1e293b;
+  font-weight: bold;
+}
+
+.compare tr:hover {
+  background: #1e293b;
+  transition: 0.2s;
+}
+
+.compare-table-wrapper,
+.compare-chart-wrapper {
+  background: #0f172a;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  flex: 1;
+  min-width: 320px;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
