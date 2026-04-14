@@ -121,6 +121,7 @@ function App() {
       head: head,
       requests: req,
       algo: algoMap[algorithm],
+      diskSize: diskSize,
     };
 
     console.log("📤 Sending to server:", data);
