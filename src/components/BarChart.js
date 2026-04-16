@@ -17,17 +17,16 @@ function BarChart({
   worstAlgo,
 }) {
   const data = {
-    labels: Object.keys(comparison),
+    labels: Object.keys(comparison || {}),
     datasets: [
       {
         label: "Seek Time",
-        data: Object.values(comparison),
-
-        backgroundColor: Object.keys(comparison).map((algo) => {
-          if (algo === bestAlgo) return "#22c55e"; // green
-          if (algo === worstAlgo) return "#ef4444"; // red
-          if (hoverAlgo === algo) return "#facc15"; // hover yellow
-          return "#00bcd4"; // default
+        data: Object.values(comparison || {}),
+        backgroundColor: Object.keys(comparison || {}).map((algo) => {
+          if (algo === bestAlgo) return "#22c55e";
+          if (algo === worstAlgo) return "#ef4444";
+          if (hoverAlgo === algo) return "#facc15";
+          return "#00bcd4";
         }),
       },
     ],
@@ -62,7 +61,7 @@ function BarChart({
         maxWidth: "600px",
       }}
     >
-      <Bar data={data} options={options}/>
+      <Bar data={data} options={options} />
     </div>
   );
 }
