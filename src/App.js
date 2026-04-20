@@ -312,7 +312,7 @@ function App() {
         <div className="compare-panel">
           <h2>Algorithm Comparison</h2>
 
-          {/* 🔥 LOADER STATE */}
+          {/* LOADER STATE */}
           {loadingCompare ? (
             <div
               style={{
@@ -382,7 +382,9 @@ function App() {
                               <span
                                 style={{ color: "#facc15", fontWeight: "bold" }}
                               >
-                                {data.ratio.toFixed(2)}× slower
+                                {Math.abs(data.ratio - 1) < 0.01
+                                  ? "Same speed"
+                                  : `${data.ratio.toFixed(2)}× slower`}
                               </span>
                             )}
                           </td>
